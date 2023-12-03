@@ -32,11 +32,15 @@ fn get_ribbon(input: &str) -> usize {
     input
         .lines()
         .map(|line| {
-            let mut itms: Vec<&str> = line.split("x").collect();
-            itms.sort();
-            let l = itms[0].parse::<i32>().unwrap();
-            let w = itms[1].parse::<i32>().unwrap();
-            let h = itms[2].parse::<i32>().unwrap();
+            let itms: Vec<&str> = line.split("x").collect();
+            let mut nums: Vec<i32> = Vec::new();
+            nums.push(itms[0].parse::<i32>().unwrap());
+            nums.push(itms[1].parse::<i32>().unwrap());
+            nums.push(itms[2].parse::<i32>().unwrap());
+            nums.sort();
+            let l = nums[0];
+            let w = nums[1];
+            let h = nums[2];
             let bow = l+l+w+w+(l*w*h);
             bow as usize
         })
