@@ -1,40 +1,49 @@
 fn main() {
-    let input = include_str!("./input_test.txt");
-    let lines = input.split("\r\n");
-    let mut calibration_sum: i32 = 0;
-    for line in lines {
-        if line.is_empty() == false {
-            calibration_sum += number_get(line);
-        }
-    }
-    println!("Sum: {:?}", calibration_sum);
-}
+    let input = include_str!("./input.txt");
+    let numbers_spelled_out_with_letters = [
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    ];
 
-fn number_get(line: &str) -> i32 {
-    let mut numbers: Vec<String> = Vec::new();
-    let chars: Vec<char> = line.chars().collect();
-    for c in chars {
-        if c.is_numeric() == true {
-            let t: String = c.to_string();
-            numbers.push(t);
-        }
-    }
-    let size = numbers.len().to_string().parse::<i32>().unwrap();
-    if size > 0 {
-        if size == 1 {
-            return [numbers[0].to_string(), numbers[0].to_string()]
-                .join("")
-                .parse::<i32>()
-                .unwrap();
-        } else {
-            return [
-                numbers[0].to_string(),
-                numbers[numbers.len() - 1].to_string(),
-            ]
-            .join("")
-            .parse::<i32>()
-            .unwrap();
-        }
-    }
-    0
+    let calibration_sum: usize = input
+        .lines()
+        .map(|line| {
+            let mut characters_digits: Vec<char> = vec![];
+            let mut temporary = String::from("");
+            for character in line.chars() {
+                temporary += &character.to_string();
+
+                let mut temporary_spelled_number_index = None;
+                for (index, spelled_number) in numbers_spelled_out_with_letters.iter().enumerate() {
+                    if temporary.contains(spelled_number) {
+                        temporary_spelled_number_index = Some(index);
+                        break;
+                    }
+                }
+                if let Some(temporary_spelled_number_index) = temporary_spelled_number_index {
+                    let number = temporary_spelled_number_index + 1;
+                    characters_digits.push(
+                        number
+                            .to_string()
+                            .chars()
+                            .next()
+                            .expect("Number should be single-character digit."),
+                    );
+                    temporary = character.to_string();
+                }
+
+                if character.is_ascii_digit() {
+                    characters_digits.push(character);
+                    temporary = String::from("");
+                }
+            }
+
+            let first_digit = characters_digits.first().unwrap_or(&'0').to_owned();
+            let last_digit = characters_digits.last().unwrap_or(&'0').to_owned();
+            let number = format!("{}{}", first_digit, last_digit);
+            let number: usize = number.parse().expect("Should parse as a `usize`.");
+            number
+        })
+        .sum();
+
+    println!("Sum: {:?}", calibration_sum);
 }

@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 fn main() {
     let input = include_str!("./input_test.txt");
     let lines = input.split("\r\n");
@@ -21,7 +19,6 @@ fn number_get(line: &str) -> i32 {
             numbers.push(t);
         }
     }
-    println!("line numbers: {:?}", numbers);
     let size = numbers.len().to_string().parse::<i32>().unwrap();
     if size > 0 {
         if size == 1 {
