@@ -1,0 +1,1 @@
+C:\Users\AndrewBrunker\Documents\sources\advent-of-code\2015\day-02\target\debug\day-02.exe: C:\Users\AndrewBrunker\Documents\sources\advent-of-code\2015\day-02\src\input.txt C:\Users\AndrewBrunker\Documents\sources\advent-of-code\2015\day-02\src\main.rs
